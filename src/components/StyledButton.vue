@@ -13,5 +13,5 @@ const classes = `${baseClasses} ${ButtonKindClasses[kind]}`;
 </script>
 
 <template>
-  <button @click="$emit('pressed')" v-bind:type="type" v-bind:class="classes"><slot /></button>
+  <button @click="$emit('pressed')" :type :class="classes"><slot /></button>
 </template>
