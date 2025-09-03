@@ -1,24 +1,35 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { computed, ref, type Component } from 'vue';
+
+import Header from './components/Header.vue';
+import Home from './Home.vue';
+import About from './About.vue';
+import NotFound from './NotFound.vue';
+
+type RouteConfig = { [key: string]: Component };
+
+const routes: RouteConfig = {
+  '/': Home,
+  '/about': About,
+};
+
+const currentPath = ref(window.location.hash);
+
+window.addEventListener('hashchange', () => {
+  currentPath.value = window.location.hash;
+});
+
+const currentView = computed(() => {
+  return routes[currentPath.value.slice(1) || '/'] || NotFound;
+});
 </script>
 
 <template>
-  <header class="leading-[1.5] lg:flex lg:place-items-center">
-    <img
-      alt="Vue logo"
-      class="block mx-auto mb-8 lg:mr-8"
-      src="./assets/logo.svg"
-      width="125"
-      height="125"
-    />
+  <div class="flex flex-col">
+    <Header />
 
-    <div class="lg:flex lg:place-items-start lg:wrap">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <main class="max-w-7xl mx-auto">
+      <component :is="currentView" />
+    </main>
+  </div>
 </template>
