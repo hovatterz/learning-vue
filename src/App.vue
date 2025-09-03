@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed, ref, type Component } from 'vue';
 
-import Header from './components/Header.vue';
-import Home from './Home.vue';
-import About from './About.vue';
-import NotFound from './NotFound.vue';
+import PageHeader from './components/PageHeader.vue';
+import HomePage from './HomePage.vue';
+import AboutPage from './AboutPage.vue';
+import NotFoundPage from './NotFoundPage.vue';
 
 type RouteConfig = { [key: string]: Component };
 
 const routes: RouteConfig = {
-  '/': Home,
-  '/about': About,
+  '/': HomePage,
+  '/about': AboutPage,
 };
 
 const currentPath = ref(window.location.hash);
@@ -20,13 +20,13 @@ window.addEventListener('hashchange', () => {
 });
 
 const currentView = computed(() => {
-  return routes[currentPath.value.slice(1) || '/'] || NotFound;
+  return routes[currentPath.value.slice(1) || '/'] || NotFoundPage;
 });
 </script>
 
 <template>
   <div class="flex flex-col">
-    <Header />
+    <PageHeader />
 
     <main class="max-w-7xl mx-auto">
       <component :is="currentView" />
