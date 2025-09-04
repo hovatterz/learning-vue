@@ -26,7 +26,11 @@ export default reactive<ToDoStore>({
   todos: load(),
   create: function (todo: Partial<ToDo>) {
     const maxId = Math.max(...this.todos.map((item) => item.id));
-    const todoWithId = Object.assign({ ...todo, id: maxId });
+    const defaultToDo = { title: '', description: '', completed: false };
+    const todoWithId: ToDo = Object.assign(defaultToDo, todo, {
+      id: maxId,
+      createdAt: new Date(),
+    });
     this.todos.push(todoWithId);
 
     persist(this.todos);
